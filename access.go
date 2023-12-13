@@ -98,5 +98,8 @@ func sendCachedResponse(kong *pdk.PDK, cached *cacheData) {
 
 	cached.Headers["X-Cache-Status"] = []string{"HIT"}
 	cached.Headers["X-Cache-Until"] = []string{cached.TTL}
+	cached.Headers["Content-Type"] = []string{"application/json"}
+	cached.Headers["Content-Length"] = []string{fmt.Sprintf("%d", len(responseBody))}
+	cached.Headers["Accept"] = []string{"application/json"}
 	kong.Response.Exit(cached.Status, string(responseBody), cached.Headers)
 }
